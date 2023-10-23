@@ -392,5 +392,48 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
 
     }
 
+    "3 points wheel with directed center and self-loop" should {
+
+        val graph = DirectedGraph[Int]().withEdges(1 -> 1, 1 -> 2, 1 -> 3, 1 -> 4, 2 -> 3, 3 -> 4, 4 -> 2, 4 -> 4)
+
+        "handle DFT starting at 1" in {
+          graph.depthFirstTraversal(1) shouldBe List(1, 2, 3, 4)
+        }
+
+        "handle DFT starting at 2" in {
+          graph.depthFirstTraversal(2) shouldBe List(2, 3, 4)
+        }
+
+        "handle DFT starting at 3" in {
+          graph.depthFirstTraversal(3) shouldBe List(3, 4, 2)
+        }
+
+        "handle DFT starting at 4" in {
+          graph.depthFirstTraversal(4) shouldBe List(4, 2, 3)
+        }
+
+    }
+
+    "3 points wheel with undirected center and self-loop" should {
+
+      val graph = DirectedGraph[Int]().withEdges(1 -> 2, 2 -> 1, 1 -> 3, 3 -> 1, 1 -> 4, 4 -> 1, 2 -> 3, 3 -> 4, 4 -> 2, 3 -> 3)
+
+      "handle DFT starting at 1" in {
+        graph.depthFirstTraversal(1) shouldBe List(1, 2, 3, 4)
+      }
+
+      "handle DFT starting at 2" in {
+        graph.depthFirstTraversal(2) shouldBe List(2, 1, 3, 4)
+      }
+
+      "handle DFT starting at 3" in {
+        graph.depthFirstTraversal(3) shouldBe List(3, 1, 2, 4)
+      }
+
+      "handle DFT starting at 4" in {
+        graph.depthFirstTraversal(4) shouldBe List(4, 1, 2, 3)
+      }
+
+    }
   }
 }
