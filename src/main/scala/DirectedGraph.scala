@@ -7,7 +7,7 @@ import scala.annotation.tailrec
   */
 final case class DirectedGraph[V](private val edgesMap: Map[V, Set[V]] = Map.empty[V, Set[V]]) {
 
-  type E = (V, V)
+  private type E = (V, V)
 
   def isEmpty: Boolean = edgesMap.isEmpty
 
@@ -28,26 +28,26 @@ final case class DirectedGraph[V](private val edgesMap: Map[V, Set[V]] = Map.emp
   def containsVertex(vertex: V): Boolean =
     !isEmpty && (edgesMap.contains(vertex) || edgesMap.values.exists(_.contains(vertex)))
 
-  def depthFirstTraversal(startingVertex: V): LazyList[V] = {
+  def depthFirstTraversal(startingVertex: V): List[V] = {
     if (containsVertex(startingVertex)) {
-      depthFirstTraversalImpl(List(startingVertex), Set.empty, LazyList.empty)
+      depthFirstTraversalImpl(List(startingVertex), Set.empty, List.empty)
     } else {
-      LazyList.empty
+      List.empty
     }
   }
 
   @tailrec
-  private def depthFirstTraversalImpl(visitQueue: List[V], visited: Set[V], traversal: LazyList[V]): LazyList[V] = {
+  private def depthFirstTraversalImpl(visitQueue: List[V], visited: Set[V], traversalReversed: List[V]): List[V] = {
     visitQueue match {
-      case Nil => traversal
+      case Nil => traversalReversed.reverse
       case currentVertex :: visitQueueTail =>
         if (visited.contains(currentVertex)) {
-          depthFirstTraversalImpl(visitQueue = visitQueueTail, visited, traversal)
+          depthFirstTraversalImpl(visitQueue = visitQueueTail, visited, traversalReversed)
         } else {
           depthFirstTraversalImpl(
             visitQueue = getNeighbors(currentVertex).getOrElse(Set.empty) ++: visitQueueTail,
             visited = visited + currentVertex,
-            traversal = traversal :+ currentVertex
+            traversalReversed = currentVertex :: traversalReversed
           )
         }
     }

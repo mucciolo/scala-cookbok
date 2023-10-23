@@ -15,7 +15,7 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
       }
 
       "return empty list on DFT" in {
-        graph.depthFirstTraversal(1) shouldBe LazyList.empty
+        graph.depthFirstTraversal(1) shouldBe List.empty
       }
     }
 
@@ -78,11 +78,11 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
       }
 
       "handle DFT starting at root 1" in {
-        graph.depthFirstTraversal(1) shouldBe LazyList(1, 2)
+        graph.depthFirstTraversal(1) shouldBe List(1, 2)
       }
 
       "handle DFT starting at leaf 2" in {
-        graph.depthFirstTraversal(2) shouldBe LazyList(2)
+        graph.depthFirstTraversal(2) shouldBe List(2)
       }
 
     }
@@ -100,7 +100,7 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
       }
 
       "handle DFT starting at 1" in {
-        graph.depthFirstTraversal(1) shouldBe LazyList(1)
+        graph.depthFirstTraversal(1) shouldBe List(1)
       }
 
     }
@@ -110,15 +110,15 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
       val graph = DirectedGraph[Int]().withEdges(1 -> 2, 2 -> 3)
 
       "handle DFT starting at root 1" in {
-        graph.depthFirstTraversal(1) shouldBe LazyList(1, 2, 3)
+        graph.depthFirstTraversal(1) shouldBe List(1, 2, 3)
       }
 
       "handle DFT starting at middle vertex 2" in {
-        graph.depthFirstTraversal(2) shouldBe LazyList(2, 3)
+        graph.depthFirstTraversal(2) shouldBe List(2, 3)
       }
 
       "handle DFT starting at leaf 3" in {
-        graph.depthFirstTraversal(3) shouldBe LazyList(3)
+        graph.depthFirstTraversal(3) shouldBe List(3)
       }
 
     }
@@ -128,23 +128,23 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
       val graph = DirectedGraph[Int]().withEdges(1 -> 2, 2 -> 4, 1 -> 3, 3 -> 5)      
 
       "handle DFT starting at root 1" in {
-        graph.depthFirstTraversal(1) shouldBe LazyList(1, 2, 4, 3, 5)
+        graph.depthFirstTraversal(1) shouldBe List(1, 2, 4, 3, 5)
       }
 
       "handle DFT starting at middle 2" in {
-        graph.depthFirstTraversal(2) shouldBe LazyList(2, 4)
+        graph.depthFirstTraversal(2) shouldBe List(2, 4)
       }
 
       "handle DFT starting at leaf 4" in {
-        graph.depthFirstTraversal(4) shouldBe LazyList(4)
+        graph.depthFirstTraversal(4) shouldBe List(4)
       }
 
       "handle DFT starting at middle 3" in {
-        graph.depthFirstTraversal(3) shouldBe LazyList(3, 5)
+        graph.depthFirstTraversal(3) shouldBe List(3, 5)
       }
 
       "handle DFT starting at leaf 5" in {
-        graph.depthFirstTraversal(5) shouldBe LazyList(5)
+        graph.depthFirstTraversal(5) shouldBe List(5)
       }
 
     }
@@ -154,19 +154,19 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
       val graph = DirectedGraph[Int]().withEdges(1 -> 2, 2 -> 3, 2 -> 4)
 
       "handle DFT starting at root 1" in {
-        graph.depthFirstTraversal(1) shouldBe LazyList(1, 2, 3, 4)
+        graph.depthFirstTraversal(1) shouldBe List(1, 2, 3, 4)
       }
 
       "handle DFT starting at middle 2" in {
-        graph.depthFirstTraversal(2) shouldBe LazyList(2, 3, 4)
+        graph.depthFirstTraversal(2) shouldBe List(2, 3, 4)
       }
 
       "handle DFT starting at leaf 3" in {
-        graph.depthFirstTraversal(3) shouldBe LazyList(3)
+        graph.depthFirstTraversal(3) shouldBe List(3)
       }
 
       "handle DFT starting at leaf 4" in {
-        graph.depthFirstTraversal(4) shouldBe LazyList(4)
+        graph.depthFirstTraversal(4) shouldBe List(4)
       }
 
     }
@@ -176,19 +176,19 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
       val graph = DirectedGraph[Int]().withEdges(1 -> 2, 1 -> 3, 1 -> 4)
 
       "handle DFT starting at root 1" in {
-        graph.depthFirstTraversal(1) shouldBe LazyList(1, 2, 3, 4)
+        graph.depthFirstTraversal(1) shouldBe List(1, 2, 3, 4)
       }
 
       "handle DFT starting at middle 2" in {
-        graph.depthFirstTraversal(2) shouldBe LazyList(2)
+        graph.depthFirstTraversal(2) shouldBe List(2)
       }
 
       "handle DFT starting at middle 3" in {
-        graph.depthFirstTraversal(3) shouldBe LazyList(3)
+        graph.depthFirstTraversal(3) shouldBe List(3)
       }
 
       "handle DFT starting at middle 4" in {
-        graph.depthFirstTraversal(4) shouldBe LazyList(4)
+        graph.depthFirstTraversal(4) shouldBe List(4)
       }
 
     }
@@ -198,15 +198,15 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
       val graph = DirectedGraph[Int]().withEdges(1 -> 2, 2 -> 3, 3 -> 1)
 
       "handle DFT starting at root 1" in {
-        graph.depthFirstTraversal(1) shouldBe LazyList(1, 2, 3)
+        graph.depthFirstTraversal(1) shouldBe List(1, 2, 3)
       }
 
       "handle DFT starting at middle vertex 2" in {
-        graph.depthFirstTraversal(2) shouldBe LazyList(2, 3, 1)
+        graph.depthFirstTraversal(2) shouldBe List(2, 3, 1)
       }
 
       "handle DFT starting at leaf 3" in {
-        graph.depthFirstTraversal(3) shouldBe LazyList(3, 1, 2)
+        graph.depthFirstTraversal(3) shouldBe List(3, 1, 2)
       }
 
     }
@@ -216,23 +216,23 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
       val graph = DirectedGraph[Int]().withEdges(1 -> 2, 2 -> 3, 3 -> 1, 1 -> 4, 1 -> 5)
 
       "handle DFT starting at 1" in {
-        graph.depthFirstTraversal(1) shouldBe LazyList(1, 2, 3, 4, 5)
+        graph.depthFirstTraversal(1) shouldBe List(1, 2, 3, 4, 5)
       }
 
       "handle DFT starting at 2" in {
-        graph.depthFirstTraversal(2) shouldBe LazyList(2, 3, 1, 4, 5)
+        graph.depthFirstTraversal(2) shouldBe List(2, 3, 1, 4, 5)
       }
 
       "handle DFT starting at 3" in {
-        graph.depthFirstTraversal(3) shouldBe LazyList(3, 1, 2, 4, 5)
+        graph.depthFirstTraversal(3) shouldBe List(3, 1, 2, 4, 5)
       }
 
       "handle DFT starting at 4" in {
-        graph.depthFirstTraversal(4) shouldBe LazyList(4)
+        graph.depthFirstTraversal(4) shouldBe List(4)
       }
 
       "handle DFT starting at 5" in {
-        graph.depthFirstTraversal(5) shouldBe LazyList(5)
+        graph.depthFirstTraversal(5) shouldBe List(5)
       }
 
     }
@@ -242,19 +242,19 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
       val graph = DirectedGraph[Int]().withEdges(1 -> 2, 3 -> 4)
 
       "handle DFT starting at 1" in {
-        graph.depthFirstTraversal(1) shouldBe LazyList(1, 2)
+        graph.depthFirstTraversal(1) shouldBe List(1, 2)
       }
 
       "handle DFT starting at 2" in {
-        graph.depthFirstTraversal(2) shouldBe LazyList(2)
+        graph.depthFirstTraversal(2) shouldBe List(2)
       }
 
       "handle DFT starting at 3" in {
-        graph.depthFirstTraversal(3) shouldBe LazyList(3, 4)
+        graph.depthFirstTraversal(3) shouldBe List(3, 4)
       }
 
       "handle DFT starting at 4" in {
-        graph.depthFirstTraversal(4) shouldBe LazyList(4)
+        graph.depthFirstTraversal(4) shouldBe List(4)
       }
 
     }
@@ -264,23 +264,23 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
       val graph = DirectedGraph[Int]().withEdges(1 -> 2, 2 -> 3, 3 -> 1, 4 -> 5)
 
       "handle DFT starting at 1" in {
-        graph.depthFirstTraversal(1) shouldBe LazyList(1, 2, 3)
+        graph.depthFirstTraversal(1) shouldBe List(1, 2, 3)
       }
 
       "handle DFT starting at 2" in {
-        graph.depthFirstTraversal(2) shouldBe LazyList(2, 3, 1)
+        graph.depthFirstTraversal(2) shouldBe List(2, 3, 1)
       }
 
       "handle DFT starting at 3" in {
-        graph.depthFirstTraversal(3) shouldBe LazyList(3, 1, 2)
+        graph.depthFirstTraversal(3) shouldBe List(3, 1, 2)
       }
 
       "handle DFT starting at 4" in {
-        graph.depthFirstTraversal(4) shouldBe LazyList(4, 5)
+        graph.depthFirstTraversal(4) shouldBe List(4, 5)
       }
 
       "handle DFT starting at 5" in {
-        graph.depthFirstTraversal(5) shouldBe LazyList(5)
+        graph.depthFirstTraversal(5) shouldBe List(5)
       }
 
     }
@@ -290,27 +290,27 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
       val graph = DirectedGraph[Int]().withEdges(1 -> 2, 2 -> 3, 3 -> 1, 4 -> 5, 5 -> 6, 6 -> 4, 1 -> 4)
 
       "handle DFT starting at 1" in {
-        graph.depthFirstTraversal(1) shouldBe LazyList(1, 2, 3, 4, 5, 6)
+        graph.depthFirstTraversal(1) shouldBe List(1, 2, 3, 4, 5, 6)
       }
 
       "handle DFT starting at 2" in {
-        graph.depthFirstTraversal(2) shouldBe LazyList(2, 3, 1, 4, 5, 6)
+        graph.depthFirstTraversal(2) shouldBe List(2, 3, 1, 4, 5, 6)
       }
 
       "handle DFT starting at 3" in {
-        graph.depthFirstTraversal(3) shouldBe LazyList(3, 1, 2, 4, 5, 6)
+        graph.depthFirstTraversal(3) shouldBe List(3, 1, 2, 4, 5, 6)
       }
 
       "handle DFT starting at 4" in {
-        graph.depthFirstTraversal(4) shouldBe LazyList(4, 5, 6)
+        graph.depthFirstTraversal(4) shouldBe List(4, 5, 6)
       }
 
       "handle DFT starting at 5" in {
-        graph.depthFirstTraversal(5) shouldBe LazyList(5, 6, 4)
+        graph.depthFirstTraversal(5) shouldBe List(5, 6, 4)
       }
 
       "handle DFT starting at 6" in {
-        graph.depthFirstTraversal(6) shouldBe LazyList(6, 4, 5)
+        graph.depthFirstTraversal(6) shouldBe List(6, 4, 5)
       }
 
     }
@@ -320,31 +320,31 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
       val graph = DirectedGraph[Int]().withEdges(1 -> 2, 1 -> 3, 2 -> 4, 2 -> 5, 3 -> 6, 3 -> 7)
 
       "handle DFT starting at 1" in {
-        graph.depthFirstTraversal(1) shouldBe LazyList(1, 2, 4, 5, 3, 6, 7)
+        graph.depthFirstTraversal(1) shouldBe List(1, 2, 4, 5, 3, 6, 7)
       }
 
       "handle DFT starting at 2" in {
-        graph.depthFirstTraversal(2) shouldBe LazyList(2, 4, 5)
+        graph.depthFirstTraversal(2) shouldBe List(2, 4, 5)
       }
 
       "handle DFT starting at 3" in {
-        graph.depthFirstTraversal(3) shouldBe LazyList(3, 6, 7)
+        graph.depthFirstTraversal(3) shouldBe List(3, 6, 7)
       }
 
       "handle DFT starting at 4" in {
-        graph.depthFirstTraversal(4) shouldBe LazyList(4)
+        graph.depthFirstTraversal(4) shouldBe List(4)
       }
 
       "handle DFT starting at 5" in {
-        graph.depthFirstTraversal(5) shouldBe LazyList(5)
+        graph.depthFirstTraversal(5) shouldBe List(5)
       }
 
       "handle DFT starting at 6" in {
-        graph.depthFirstTraversal(6) shouldBe LazyList(6)
+        graph.depthFirstTraversal(6) shouldBe List(6)
       }
 
       "handle DFT starting at 7" in {
-        graph.depthFirstTraversal(7) shouldBe LazyList(7)
+        graph.depthFirstTraversal(7) shouldBe List(7)
       }
 
     }
@@ -354,23 +354,23 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
       val graph = DirectedGraph[Int]().withEdges(1 -> 2, 2 -> 3, 3 -> 1, 1 -> 4, 4 -> 5, 5 -> 3)
 
       "handle DFT starting at 1" in {
-        graph.depthFirstTraversal(1) shouldBe LazyList(1, 2, 3, 4, 5)
+        graph.depthFirstTraversal(1) shouldBe List(1, 2, 3, 4, 5)
       }
 
       "handle DFT starting at 2" in {
-        graph.depthFirstTraversal(2) shouldBe LazyList(2, 3, 1, 4, 5)
+        graph.depthFirstTraversal(2) shouldBe List(2, 3, 1, 4, 5)
       }
 
       "handle DFT starting at 3" in {
-        graph.depthFirstTraversal(3) shouldBe LazyList(3, 1, 2, 4, 5)
+        graph.depthFirstTraversal(3) shouldBe List(3, 1, 2, 4, 5)
       }
 
       "handle DFT starting at 4" in {
-        graph.depthFirstTraversal(4) shouldBe LazyList(4, 5, 3, 1, 2)
+        graph.depthFirstTraversal(4) shouldBe List(4, 5, 3, 1, 2)
       }
 
       "handle DFT starting at 5" in {
-        graph.depthFirstTraversal(5) shouldBe LazyList(5, 3, 1, 2, 4)
+        graph.depthFirstTraversal(5) shouldBe List(5, 3, 1, 2, 4)
       }
     }
 
@@ -379,15 +379,15 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
         val graph = DirectedGraph[Int]().withEdges(1 -> 2, 1 -> 3, 2 -> 1, 2 -> 3, 3 -> 1, 3 -> 2)
 
         "handle DFT starting at 1" in {
-          graph.depthFirstTraversal(1) shouldBe LazyList(1, 2, 3)
+          graph.depthFirstTraversal(1) shouldBe List(1, 2, 3)
         }
 
         "handle DFT starting at 2" in {
-          graph.depthFirstTraversal(2) shouldBe LazyList(2, 1, 3)
+          graph.depthFirstTraversal(2) shouldBe List(2, 1, 3)
         }
 
         "handle DFT starting at 3" in {
-          graph.depthFirstTraversal(3) shouldBe LazyList(3, 1, 2)
+          graph.depthFirstTraversal(3) shouldBe List(3, 1, 2)
         }
 
     }
