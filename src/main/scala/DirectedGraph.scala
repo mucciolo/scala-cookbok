@@ -14,7 +14,15 @@ final case class DirectedGraph[V](private val edgesMap: Map[V, Set[V]] = Map.emp
   def withEdges(edges: E*): DirectedGraph[V] = {
     val updatedEdges = edges.foldLeft(edgesMap) { (acc, edge) =>
       val (from, to) = edge
-      acc + (from -> (acc.getOrElse(from, Set.empty) + to))
+
+      acc.updatedWith(from) {
+          case Some(neighbors) => Some(neighbors + to)
+          case None => Some(Set(to))
+        }
+        .updatedWith(to) {
+          case Some(neighbors) => Some(neighbors)
+          case None => Some(Set.empty)
+        }
     }
 
     DirectedGraph(updatedEdges)
@@ -25,8 +33,11 @@ final case class DirectedGraph[V](private val edgesMap: Map[V, Set[V]] = Map.emp
     edgesMap.get(from).exists(_.contains(to))
   }
 
-  def containsVertex(vertex: V): Boolean =
-    !isEmpty && (edgesMap.contains(vertex) || edgesMap.values.exists(_.contains(vertex)))
+  def containsVertex(vertex: V): Boolean = edgesMap.contains(vertex)
+
+  val order: Int = edgesMap.size
+
+  val size: Int = edgesMap.values.map(_.size).sum
 
   def depthFirstTraversal(startingVertex: V): List[V] = {
     if (containsVertex(startingVertex)) {

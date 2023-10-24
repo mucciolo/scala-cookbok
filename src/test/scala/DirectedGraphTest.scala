@@ -17,6 +17,14 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
       "return empty list on DFT" in {
         graph.depthFirstTraversal(1) shouldBe List.empty
       }
+
+      "have size 0" in {
+        graph.size shouldBe 0
+      }
+
+      "have order 0" in {
+        graph.order shouldBe 0
+      }
     }
 
     "not containing vertex 3" should {
@@ -85,6 +93,14 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
         graph.depthFirstTraversal(2) shouldBe List(2)
       }
 
+      "have size 1" in {
+        graph.size shouldBe 1
+      }
+
+      "have order 2" in {
+        graph.order shouldBe 2
+      }
+
     }
 
     "composed of two linked equal vertexes" should {
@@ -103,6 +119,14 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
         graph.depthFirstTraversal(1) shouldBe List(1)
       }
 
+      "have size 1" in {
+        graph.size shouldBe 1
+      }
+
+      "have order 1" in {
+        graph.order shouldBe 1
+      }
+
     }
 
     "path graph of order 2" should {
@@ -119,6 +143,14 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
 
       "handle DFT starting at leaf 3" in {
         graph.depthFirstTraversal(3) shouldBe List(3)
+      }
+
+      "have size 2" in {
+        graph.size shouldBe 2
+      }
+
+      "have order 3" in {
+        graph.order shouldBe 3
       }
 
     }
@@ -147,6 +179,14 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
         graph.depthFirstTraversal(5) shouldBe List(5)
       }
 
+      "have size 4" in {
+        graph.size shouldBe 4
+      }
+
+      "have order 5" in {
+        graph.order shouldBe 5
+      }
+
     }
 
     "tree with subtree" should {
@@ -167,6 +207,14 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
 
       "handle DFT starting at leaf 4" in {
         graph.depthFirstTraversal(4) shouldBe List(4)
+      }
+
+      "have size 3" in {
+        graph.size shouldBe 3
+      }
+
+      "have order 4" in {
+        graph.order shouldBe 4
       }
 
     }
@@ -207,6 +255,14 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
 
       "handle DFT starting at leaf 3" in {
         graph.depthFirstTraversal(3) shouldBe List(3, 1, 2)
+      }
+
+      "have size 3" in {
+        graph.size shouldBe 3
+      }
+
+      "have order 3" in {
+        graph.order shouldBe 3
       }
 
     }
