@@ -64,6 +64,31 @@ final case class DirectedGraph[V](private val edgesMap: Map[V, Set[V]] = Map.emp
     }
   }
 
+  def breadthFirstTraversal(startingVertex: V): List[V] = {
+    if (containsVertex(startingVertex)) {
+      breadthFirstTraversalImpl(List(startingVertex), Set.empty, List.empty)
+    } else {
+      List.empty
+    }
+  }
+
+  @tailrec
+  private def breadthFirstTraversalImpl(visitQueue: List[V], visited: Set[V], traversalReversed: List[V]): List[V] = {
+    visitQueue match {
+      case Nil => traversalReversed.reverse
+      case currentVertex :: visitQueueTail =>
+        if (visited.contains(currentVertex)) {
+          breadthFirstTraversalImpl(visitQueue = visitQueueTail, visited, traversalReversed)
+        } else {
+          breadthFirstTraversalImpl(
+            visitQueue = visitQueueTail ++ getNeighbors(currentVertex).getOrElse(Set.empty),
+            visited = visited + currentVertex,
+            traversalReversed = currentVertex :: traversalReversed
+          )
+        }
+    }
+  }
+
   private def getNeighbors(vertex: V): Option[Set[V]] = edgesMap.get(vertex)
 
 }

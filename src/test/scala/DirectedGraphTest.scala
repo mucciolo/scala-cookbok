@@ -25,6 +25,11 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
       "have order 0" in {
         graph.order shouldBe 0
       }
+
+      "return empty list on BFS" in {
+        graph.breadthFirstTraversal(1) shouldBe List.empty
+      }
+
     }
 
     "not containing vertex 3" should {
@@ -101,6 +106,14 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
         graph.order shouldBe 2
       }
 
+      "handle BFS starting at root 1" in {
+        graph.breadthFirstTraversal(1) shouldBe List(1, 2)
+      }
+
+      "handle BFS starting at leaf 2" in {
+        graph.breadthFirstTraversal(2) shouldBe List(2)
+      }
+
     }
 
     "composed of two linked equal vertexes" should {
@@ -125,6 +138,10 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
 
       "have order 1" in {
         graph.order shouldBe 1
+      }
+
+      "handle BFS starting at 1" in {
+        graph.breadthFirstTraversal(1) shouldBe List(1)
       }
 
     }
@@ -153,11 +170,23 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
         graph.order shouldBe 3
       }
 
+      "handle BFS starting at root 1" in {
+        graph.breadthFirstTraversal(1) shouldBe List(1, 2, 3)
+      }
+
+      "handle BFS starting at middle vertex 2" in {
+        graph.breadthFirstTraversal(2) shouldBe List(2, 3)
+      }
+
+      "handle BFS starting at leaf 3" in {
+        graph.breadthFirstTraversal(3) shouldBe List(3)
+      }
+
     }
 
     "tree with two branches of depth 2" should {
 
-      val graph = DirectedGraph[Int]().withEdges(1 -> 2, 2 -> 4, 1 -> 3, 3 -> 5)      
+      val graph = DirectedGraph[Int]().withEdges(1 -> 2, 2 -> 4, 1 -> 3, 3 -> 5)
 
       "handle DFT starting at root 1" in {
         graph.depthFirstTraversal(1) shouldBe List(1, 2, 4, 3, 5)
@@ -185,6 +214,26 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
 
       "have order 5" in {
         graph.order shouldBe 5
+      }
+
+      "handle BFS starting at root 1" in {
+        graph.breadthFirstTraversal(1) shouldBe List(1, 2, 3, 4, 5)
+      }
+
+      "handle BFS starting at middle 2" in {
+        graph.breadthFirstTraversal(2) shouldBe List(2, 4)
+      }
+
+      "handle BFS starting at leaf 4" in {
+        graph.breadthFirstTraversal(4) shouldBe List(4)
+      }
+
+      "handle BFS starting at middle 3" in {
+        graph.breadthFirstTraversal(3) shouldBe List(3, 5)
+      }
+
+      "handle BFS starting at leaf 5" in {
+        graph.breadthFirstTraversal(5) shouldBe List(5)
       }
 
     }
@@ -217,6 +266,22 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
         graph.order shouldBe 4
       }
 
+      "handle BFS starting at root 1" in {
+        graph.breadthFirstTraversal(1) shouldBe List(1, 2, 3, 4)
+      }
+
+      "handle BFS starting at middle 2" in {
+        graph.breadthFirstTraversal(2) shouldBe List(2, 3, 4)
+      }
+
+      "handle BFS starting at leaf 3" in {
+        graph.breadthFirstTraversal(3) shouldBe List(3)
+      }
+
+      "handle BFS starting at leaf 4" in {
+        graph.breadthFirstTraversal(4) shouldBe List(4)
+      }
+
     }
 
     "tree with three branches" should {
@@ -237,6 +302,22 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
 
       "handle DFT starting at middle 4" in {
         graph.depthFirstTraversal(4) shouldBe List(4)
+      }
+
+      "handle BFS starting at root 1" in {
+        graph.breadthFirstTraversal(1) shouldBe List(1, 2, 3, 4)
+      }
+
+      "handle BFS starting at middle 2" in {
+        graph.breadthFirstTraversal(2) shouldBe List(2)
+      }
+
+      "handle BFS starting at middle 3" in {
+        graph.breadthFirstTraversal(3) shouldBe List(3)
+      }
+
+      "handle BFS starting at middle 4" in {
+        graph.breadthFirstTraversal(4) shouldBe List(4)
       }
 
     }
@@ -265,11 +346,23 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
         graph.order shouldBe 3
       }
 
+      "handle BFS starting at root 1" in {
+        graph.breadthFirstTraversal(1) shouldBe List(1, 2, 3)
+      }
+
+      "handle BFS starting at middle vertex 2" in {
+        graph.breadthFirstTraversal(2) shouldBe List(2, 3, 1)
+      }
+
+      "handle BFS starting at leaf 3" in {
+        graph.breadthFirstTraversal(3) shouldBe List(3, 1, 2)
+      }
+
     }
 
-    "3-cyclic attached with two trees" should {
+    "3-cyclic attached with two trees and self-loop" should {
 
-      val graph = DirectedGraph[Int]().withEdges(1 -> 2, 2 -> 3, 3 -> 1, 1 -> 4, 1 -> 5)
+      val graph = DirectedGraph[Int]().withEdges(1 -> 2, 2 -> 3, 3 -> 1, 1 -> 4, 1 -> 5, 5 -> 5)
 
       "handle DFT starting at 1" in {
         graph.depthFirstTraversal(1) shouldBe List(1, 2, 3, 4, 5)
@@ -289,6 +382,26 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
 
       "handle DFT starting at 5" in {
         graph.depthFirstTraversal(5) shouldBe List(5)
+      }
+
+      "handle BFS starting at 1" in {
+        graph.breadthFirstTraversal(1) shouldBe List(1, 2, 4, 5, 3)
+      }
+
+      "handle BFS starting at 2" in {
+        graph.breadthFirstTraversal(2) shouldBe List(2, 3, 1, 4, 5)
+      }
+
+      "handle BFS starting at 3" in {
+        graph.breadthFirstTraversal(3) shouldBe List(3, 1, 2, 4, 5)
+      }
+
+      "handle BFS starting at 4" in {
+        graph.breadthFirstTraversal(4) shouldBe List(4)
+      }
+
+      "handle BFS starting at 5" in {
+        graph.breadthFirstTraversal(5) shouldBe List(5)
       }
 
     }
@@ -311,6 +424,22 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
 
       "handle DFT starting at 4" in {
         graph.depthFirstTraversal(4) shouldBe List(4)
+      }
+
+      "handle BFS starting at 1" in {
+        graph.breadthFirstTraversal(1) shouldBe List(1, 2)
+      }
+
+      "handle BFS starting at 2" in {
+        graph.breadthFirstTraversal(2) shouldBe List(2)
+      }
+
+      "handle BFS starting at 3" in {
+        graph.breadthFirstTraversal(3) shouldBe List(3, 4)
+      }
+
+      "handle BFS starting at 4" in {
+        graph.breadthFirstTraversal(4) shouldBe List(4)
       }
 
     }
@@ -337,6 +466,26 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
 
       "handle DFT starting at 5" in {
         graph.depthFirstTraversal(5) shouldBe List(5)
+      }
+
+      "handle BFS starting at 1" in {
+        graph.breadthFirstTraversal(1) shouldBe List(1, 2, 3)
+      }
+
+      "handle BFS starting at 2" in {
+        graph.breadthFirstTraversal(2) shouldBe List(2, 3, 1)
+      }
+
+      "handle BFS starting at 3" in {
+        graph.breadthFirstTraversal(3) shouldBe List(3, 1, 2)
+      }
+
+      "handle BFS starting at 4" in {
+        graph.breadthFirstTraversal(4) shouldBe List(4, 5)
+      }
+
+      "handle BFS starting at 5" in {
+        graph.breadthFirstTraversal(5) shouldBe List(5)
       }
 
     }
@@ -367,6 +516,10 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
 
       "handle DFT starting at 6" in {
         graph.depthFirstTraversal(6) shouldBe List(6, 4, 5)
+      }
+
+      "handle BFS starting at 1" in {
+        graph.breadthFirstTraversal(1) shouldBe List(1, 2, 4, 3, 5, 6)
       }
 
     }
@@ -403,9 +556,37 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
         graph.depthFirstTraversal(7) shouldBe List(7)
       }
 
+      "handle BFS starting at 1" in {
+        graph.breadthFirstTraversal(1) shouldBe List(1, 2, 3, 4, 5, 6, 7)
+      }
+
+      "handle BFS starting at 2" in {
+        graph.breadthFirstTraversal(2) shouldBe List(2, 4, 5)
+      }
+
+      "handle BFS starting at 3" in {
+        graph.breadthFirstTraversal(3) shouldBe List(3, 6, 7)
+      }
+
+      "handle BFS starting at 4" in {
+        graph.breadthFirstTraversal(4) shouldBe List(4)
+      }
+
+      "handle BFS starting at 5" in {
+        graph.breadthFirstTraversal(5) shouldBe List(5)
+      }
+
+      "handle BFS starting at 6" in {
+        graph.breadthFirstTraversal(6) shouldBe List(6)
+      }
+
+      "handle BFS starting at 7" in {
+        graph.breadthFirstTraversal(7) shouldBe List(7)
+      }
+
     }
 
-    "two 1-intersecting 3-cycles" should {
+    "two concentric cycles" should {
 
       val graph = DirectedGraph[Int]().withEdges(1 -> 2, 2 -> 3, 3 -> 1, 1 -> 4, 4 -> 5, 5 -> 3)
 
@@ -428,45 +609,94 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
       "handle DFT starting at 5" in {
         graph.depthFirstTraversal(5) shouldBe List(5, 3, 1, 2, 4)
       }
+
+      "handle BFS starting at 1" in {
+        graph.breadthFirstTraversal(1) shouldBe List(1, 2, 4, 3, 5)
+      }
+
+      "handle BFS starting at 2" in {
+        graph.breadthFirstTraversal(2) shouldBe List(2, 3, 1, 4, 5)
+      }
+
+      "handle BFS starting at 3" in {
+        graph.breadthFirstTraversal(3) shouldBe List(3, 1, 2, 4, 5)
+      }
+
+      "handle BFS starting at 4" in {
+        graph.breadthFirstTraversal(4) shouldBe List(4, 5, 3, 1, 2)
+      }
+
+      "handle BFS starting at 5" in {
+        graph.breadthFirstTraversal(5) shouldBe List(5, 3, 1, 2, 4)
+      }
+
     }
 
     "undirected 3-complete graph" should {
 
-        val graph = DirectedGraph[Int]().withEdges(1 -> 2, 1 -> 3, 2 -> 1, 2 -> 3, 3 -> 1, 3 -> 2)
+      val graph = DirectedGraph[Int]().withEdges(1 -> 2, 1 -> 3, 2 -> 1, 2 -> 3, 3 -> 1, 3 -> 2)
 
-        "handle DFT starting at 1" in {
-          graph.depthFirstTraversal(1) shouldBe List(1, 2, 3)
-        }
+      "handle DFT starting at 1" in {
+        graph.depthFirstTraversal(1) shouldBe List(1, 2, 3)
+      }
 
-        "handle DFT starting at 2" in {
-          graph.depthFirstTraversal(2) shouldBe List(2, 1, 3)
-        }
+      "handle DFT starting at 2" in {
+        graph.depthFirstTraversal(2) shouldBe List(2, 1, 3)
+      }
 
-        "handle DFT starting at 3" in {
-          graph.depthFirstTraversal(3) shouldBe List(3, 1, 2)
-        }
+      "handle DFT starting at 3" in {
+        graph.depthFirstTraversal(3) shouldBe List(3, 1, 2)
+      }
+
+      "handle BFS starting at 1" in {
+        graph.breadthFirstTraversal(1) shouldBe List(1, 2, 3)
+      }
+
+      "handle BFS starting at 2" in {
+        graph.breadthFirstTraversal(2) shouldBe List(2, 1, 3)
+      }
+
+      "handle BFS starting at 3" in {
+        graph.breadthFirstTraversal(3) shouldBe List(3, 1, 2)
+      }
 
     }
 
     "3 points wheel with directed center and self-loop" should {
 
-        val graph = DirectedGraph[Int]().withEdges(1 -> 1, 1 -> 2, 1 -> 3, 1 -> 4, 2 -> 3, 3 -> 4, 4 -> 2, 4 -> 4)
+      val graph = DirectedGraph[Int]().withEdges(1 -> 1, 1 -> 2, 1 -> 3, 1 -> 4, 2 -> 3, 3 -> 4, 4 -> 2, 4 -> 4)
 
-        "handle DFT starting at 1" in {
-          graph.depthFirstTraversal(1) shouldBe List(1, 2, 3, 4)
-        }
+      "handle DFT starting at 1" in {
+        graph.depthFirstTraversal(1) shouldBe List(1, 2, 3, 4)
+      }
 
-        "handle DFT starting at 2" in {
-          graph.depthFirstTraversal(2) shouldBe List(2, 3, 4)
-        }
+      "handle DFT starting at 2" in {
+        graph.depthFirstTraversal(2) shouldBe List(2, 3, 4)
+      }
 
-        "handle DFT starting at 3" in {
-          graph.depthFirstTraversal(3) shouldBe List(3, 4, 2)
-        }
+      "handle DFT starting at 3" in {
+        graph.depthFirstTraversal(3) shouldBe List(3, 4, 2)
+      }
 
-        "handle DFT starting at 4" in {
-          graph.depthFirstTraversal(4) shouldBe List(4, 2, 3)
-        }
+      "handle DFT starting at 4" in {
+        graph.depthFirstTraversal(4) shouldBe List(4, 2, 3)
+      }
+
+      "handle BFS starting at 1" in {
+        graph.breadthFirstTraversal(1) shouldBe List(1, 2, 3, 4)
+      }
+
+      "handle BFS starting at 2" in {
+        graph.breadthFirstTraversal(2) shouldBe List(2, 3, 4)
+      }
+
+      "handle BFS starting at 3" in {
+        graph.breadthFirstTraversal(3) shouldBe List(3, 4, 2)
+      }
+
+      "handle BFS starting at 4" in {
+        graph.breadthFirstTraversal(4) shouldBe List(4, 2, 3)
+      }
 
     }
 
@@ -488,6 +718,87 @@ final class DirectedGraphTest extends AnyWordSpec with should.Matchers with Tabl
 
       "handle DFT starting at 4" in {
         graph.depthFirstTraversal(4) shouldBe List(4, 1, 2, 3)
+      }
+
+      "handle BFS starting at 1" in {
+        graph.breadthFirstTraversal(1) shouldBe List(1, 2, 3, 4)
+      }
+
+      "handle BFS starting at 2" in {
+        graph.breadthFirstTraversal(2) shouldBe List(2, 1, 3, 4)
+      }
+
+      "handle BFS starting at 3" in {
+        graph.breadthFirstTraversal(3) shouldBe List(3, 1, 4, 2)
+      }
+
+      "handle BFS starting at 4" in {
+        graph.breadthFirstTraversal(4) shouldBe List(4, 1, 2, 3)
+      }
+
+    }
+
+    "two 3 points concentric wheels" should {
+
+      val graph = DirectedGraph[Int]().withEdges(
+        1 -> 2, 1 -> 3, 1 -> 4, 2 -> 3, 3 -> 4, 4 -> 2,
+        2 -> 6, 3 -> 7, 4 -> 5, 5 -> 6, 6 -> 7, 7 -> 5
+      )
+
+      "handle DFT starting at 1" in {
+        graph.depthFirstTraversal(1) shouldBe List(1, 2, 3, 4, 5, 6, 7)
+      }
+
+      "handle DFT starting at 2" in {
+        graph.depthFirstTraversal(2) shouldBe List(2, 3, 4, 5, 6, 7)
+      }
+
+      "handle DFT starting at 3" in {
+        graph.depthFirstTraversal(3) shouldBe List(3, 4, 2, 6, 7, 5)
+      }
+
+      "handle DFT starting at 4" in {
+        graph.depthFirstTraversal(4) shouldBe List(4, 2, 3, 7, 5, 6)
+      }
+
+      "handle DFT starting at 5" in {
+        graph.depthFirstTraversal(5) shouldBe List(5, 6, 7)
+      }
+
+      "handle DFT starting at 6" in {
+        graph.depthFirstTraversal(6) shouldBe List(6, 7, 5)
+      }
+
+      "handle DFT starting at 7" in {
+        graph.depthFirstTraversal(7) shouldBe List(7, 5, 6)
+      }
+
+      "handle BFS starting at 1" in {
+        graph.breadthFirstTraversal(1) shouldBe List(1, 2, 3, 4, 6, 7, 5)
+      }
+
+      "handle BFS starting at 2" in {
+        graph.breadthFirstTraversal(2) shouldBe List(2, 3, 6, 4, 7, 5)
+      }
+
+      "handle BFS starting at 3" in {
+        graph.breadthFirstTraversal(3) shouldBe List(3, 4, 7, 2, 5, 6)
+      }
+
+      "handle BFS starting at 4" in {
+        graph.breadthFirstTraversal(4) shouldBe List(4, 2, 5, 3, 6, 7)
+      }
+
+      "handle BFS starting at 5" in {
+        graph.breadthFirstTraversal(5) shouldBe List(5, 6, 7)
+      }
+
+      "handle BFS starting at 6" in {
+        graph.breadthFirstTraversal(6) shouldBe List(6, 7, 5)
+      }
+
+      "handle BFS starting at 7" in {
+        graph.breadthFirstTraversal(7) shouldBe List(7, 5, 6)
       }
 
     }
