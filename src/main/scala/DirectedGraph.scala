@@ -39,56 +39,57 @@ final case class DirectedGraph[V](private val edgesMap: Map[V, Set[V]] = Map.emp
 
   val size: Int = edgesMap.values.map(_.size).sum
 
-  def depthFirstTraversal(startingVertex: V): List[V] = {
-    if (containsVertex(startingVertex)) {
-      depthFirstTraversalImpl(List(startingVertex), Set.empty, List.empty)
-    } else {
-      List.empty
-    }
-  }
+  private def getNeighbors(vertex: V): Option[Set[V]] = edgesMap.get(vertex)
 
-  @tailrec
-  private def depthFirstTraversalImpl(visitQueue: List[V], visited: Set[V], traversalReversed: List[V]): List[V] = {
-    visitQueue match {
-      case Nil => traversalReversed.reverse
-      case currentVertex :: visitQueueTail =>
-        if (visited.contains(currentVertex)) {
-          depthFirstTraversalImpl(visitQueue = visitQueueTail, visited, traversalReversed)
+  private def traversal(
+    startingVertex: V,
+    nextVisitQueue: (remainingVisitors: List[V], neighbors: Set[V]) => List[V]
+  ): List[V] = {
+
+    @tailrec
+    def iterate(
+      visitQueue: List[V],
+      visited: Set[V],
+      traversalReversed: List[V]
+    ): List[V] = visitQueue match {
+      case Nil =>
+        traversalReversed.reverse
+
+      case currentVisitor :: remainingVisitors =>
+        if (visited.contains(currentVisitor)) {
+          iterate(visitQueue = remainingVisitors, visited, traversalReversed)
         } else {
-          depthFirstTraversalImpl(
-            visitQueue = getNeighbors(currentVertex).getOrElse(Set.empty) ++: visitQueueTail,
-            visited = visited + currentVertex,
-            traversalReversed = currentVertex :: traversalReversed
+          iterate(
+            visitQueue = nextVisitQueue(remainingVisitors, getNeighbors(currentVisitor).getOrElse(Set.empty)),
+            visited = visited + currentVisitor,
+            traversalReversed = currentVisitor :: traversalReversed
           )
         }
+    }
+
+    iterate(List(startingVertex), Set.empty, List.empty)
+  }
+
+  def depthFirstTraversal(startingVertex: V): List[V] = {
+    if (containsVertex(startingVertex)) {
+      traversal(
+        startingVertex,
+        nextVisitQueue = (remainingVisitors, neighbors) => neighbors ++: remainingVisitors
+      )
+    } else {
+      List.empty
     }
   }
 
   def breadthFirstTraversal(startingVertex: V): List[V] = {
     if (containsVertex(startingVertex)) {
-      breadthFirstTraversalImpl(List(startingVertex), Set.empty, List.empty)
+      traversal(
+        startingVertex,
+        nextVisitQueue = (remainingVisitors, neighbors) => remainingVisitors ++ neighbors
+      )
     } else {
       List.empty
     }
   }
-
-  @tailrec
-  private def breadthFirstTraversalImpl(visitQueue: List[V], visited: Set[V], traversalReversed: List[V]): List[V] = {
-    visitQueue match {
-      case Nil => traversalReversed.reverse
-      case currentVertex :: visitQueueTail =>
-        if (visited.contains(currentVertex)) {
-          breadthFirstTraversalImpl(visitQueue = visitQueueTail, visited, traversalReversed)
-        } else {
-          breadthFirstTraversalImpl(
-            visitQueue = visitQueueTail ++ getNeighbors(currentVertex).getOrElse(Set.empty),
-            visited = visited + currentVertex,
-            traversalReversed = currentVertex :: traversalReversed
-          )
-        }
-    }
-  }
-
-  private def getNeighbors(vertex: V): Option[Set[V]] = edgesMap.get(vertex)
 
 }
