@@ -43,26 +43,26 @@ final case class DirectedGraph[V](private val edgesMap: Map[V, Set[V]] = Map.emp
 
   private def traversal(
     startingVertex: V,
-    nextVisitQueue: (remainingVisitors: List[V], neighbors: Set[V]) => List[V]
+    nextVisitees: (remainingVisitors: List[V], neighbors: Set[V]) => List[V]
   ): List[V] = {
 
     @tailrec
     def iterate(
-      visitQueue: List[V],
+      visitees: List[V],
       visited: Set[V],
-      traversalReversed: List[V]
-    ): List[V] = visitQueue match {
+      reversedTraversal: List[V]
+    ): List[V] = visitees match {
       case Nil =>
-        traversalReversed.reverse
+        reversedTraversal.reverse
 
       case currentVisitor :: remainingVisitors =>
         if (visited.contains(currentVisitor)) {
-          iterate(visitQueue = remainingVisitors, visited, traversalReversed)
+          iterate(visitees = remainingVisitors, visited, reversedTraversal)
         } else {
           iterate(
-            visitQueue = nextVisitQueue(remainingVisitors, getNeighbors(currentVisitor).getOrElse(Set.empty)),
+            visitees = nextVisitees(remainingVisitors, getNeighbors(currentVisitor).getOrElse(Set.empty)),
             visited = visited + currentVisitor,
-            traversalReversed = currentVisitor :: traversalReversed
+            reversedTraversal = currentVisitor :: reversedTraversal
           )
         }
     }
@@ -74,7 +74,7 @@ final case class DirectedGraph[V](private val edgesMap: Map[V, Set[V]] = Map.emp
     if (containsVertex(startingVertex)) {
       traversal(
         startingVertex,
-        nextVisitQueue = (remainingVisitors, neighbors) => neighbors ++: remainingVisitors
+        nextVisitees = (remainingVisitors, neighbors) => neighbors ++: remainingVisitors
       )
     } else {
       List.empty
@@ -85,7 +85,7 @@ final case class DirectedGraph[V](private val edgesMap: Map[V, Set[V]] = Map.emp
     if (containsVertex(startingVertex)) {
       traversal(
         startingVertex,
-        nextVisitQueue = (remainingVisitors, neighbors) => remainingVisitors ++ neighbors
+        nextVisitees = (remainingVisitors, neighbors) => remainingVisitors ++ neighbors
       )
     } else {
       List.empty
